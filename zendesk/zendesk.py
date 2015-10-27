@@ -21,7 +21,7 @@
 """
 
 __author__ = "Max Gutman <max@eventbrite.com>"
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 import re
 import httplib2
