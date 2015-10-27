@@ -25,15 +25,29 @@ __version__ = "1.1.1"
 
 import re
 import httplib2
-import urllib
 import base64
+
+from endpoints import mapping_table as mapping_table_v1
+from endpoints_v2 import mapping_table as mapping_table_v2
+
 try:
     import simplejson as json
 except:
     import json
-from httplib import responses
-from endpoints import mapping_table as mapping_table_v1
-from endpoints_v2 import mapping_table as mapping_table_v2
+
+try:
+    # Python 3
+    from urllib.parse import urlencode
+except ImportError:
+    # Python 2
+    from urllib import urlencode
+
+try:
+    # Python 3
+    from http.client import responses
+except ImportError:
+    # Python 2
+    from httplib import responses
 
 V2_COLLECTION_PARAMS = [
     'page',
@@ -184,7 +198,7 @@ class Zendesk(object):
                                     "'%s'" % (api_call, kw))
             else:
                 clean_kwargs(kwargs)
-                url += '?' + urllib.urlencode(kwargs)
+                url += '?' + urlencode(kwargs)
 
             # the 'search' endpoint in an open Zendesk site doesn't return a
             # 401 to force authentication. Inject the credentials in the
