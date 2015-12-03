@@ -27,8 +27,8 @@ import re
 import httplib2
 import base64
 
-from endpoints import mapping_table as mapping_table_v1
-from endpoints_v2 import mapping_table as mapping_table_v2
+from .endpoints import mapping_table as mapping_table_v1
+from .endpoints_v2 import mapping_table as mapping_table_v2
 
 try:
     import simplejson as json
