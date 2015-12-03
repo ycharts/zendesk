@@ -87,7 +87,7 @@ mapping_table = {
         'path': '/ticket_fields/{{ticket_field_id}}.json',
         'method': 'DELETE',
     },
-    
+
     # Views
     'list_views': {
         'path': '/views.json',
@@ -473,7 +473,7 @@ mapping_table = {
         'path': '/topics/{{topic_id}}.json',
         'method': 'DELETE',
     },
-    
+
     # Topic Comments
     'list_topic_comments': {
         'path': '/topics/{{topic_id}}/comments.json',
@@ -660,7 +660,7 @@ mapping_table = {
 }
 
 # Patch mapping table with correct HTTP Status expected
-for method, api_map in mapping_table.iteritems():
+for method, api_map in mapping_table.items():
     status = 200
     if method.startswith('create_'):
         status = 201
