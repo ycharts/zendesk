@@ -88,7 +88,7 @@ def get_id_from_url(url):
 def clean_kwargs(kwargs):
     """Format the kwargs to conform to API"""
 
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
         if hasattr(value, '__iter__'):
             kwargs[key] = ','.join(map(str, value))
 
