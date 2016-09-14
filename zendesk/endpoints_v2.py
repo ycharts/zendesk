@@ -658,10 +658,3 @@ mapping_table = {
         'method': 'DELETE',
     },
 }
-
-# Patch mapping table with correct HTTP Status expected
-for method, api_map in mapping_table.items():
-    status = 200
-    if method.startswith('create_'):
-        status = 201
-    api_map['status'] = status

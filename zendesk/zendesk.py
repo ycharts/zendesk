@@ -177,7 +177,6 @@ class Zendesk(object):
                 path = "/api/v2" + path
 
             method = api_map['method']
-            status = api_map['status']
             valid_params = api_map.get('valid_params', ())
             # Body can be passed from data or in args
             body = kwargs.pop('data', None) or self.data
@@ -219,7 +218,7 @@ class Zendesk(object):
                     headers=self.headers
                 )
             # Use a response handler to determine success/fail
-            return self._response_handler(response, content, status)
+            return self._response_handler(response, content)
 
         # Missing method is also not defined in our mapping table
         if api_call not in self.mapping_table:
@@ -229,7 +228,7 @@ class Zendesk(object):
         return call.__get__(self)
 
     @staticmethod
-    def _response_handler(response, content, status):
+    def _response_handler(response, content):
         """
         Handle response as callback
 
@@ -240,12 +239,8 @@ class Zendesk(object):
         ticket/group/etc and they pass this through 'location'.  Otherwise,
         the body of 'content' has our response.
         """
-        # Just in case
-        if not response:
-            raise ZendeskError('Response Not Found')
-        response_status = int(response.get('status', 0))
-        if response_status != status:
-            raise ZendeskError(content, response_status)
+        if response.status >= 400:
+            return responses[response.status]
 
         # Deserialize json content if content exist. In some cases Zendesk
         # returns ' ' strings. Also return false non strings (0, [], (), {})
@@ -253,5 +248,5 @@ class Zendesk(object):
             return response.get('location')
         elif content.strip():
             return json.loads(content)
-        else:
-            return responses[response_status]
+
+        return responses[response.status]
