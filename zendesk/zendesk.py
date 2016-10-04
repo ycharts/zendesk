@@ -240,7 +240,7 @@ class Zendesk(object):
         the body of 'content' has our response.
         """
         if response.status >= 400:
-            return responses[response.status]
+            raise ZendeskError(content, response.status)
 
         # Deserialize json content if content exist. In some cases Zendesk
         # returns ' ' strings. Also return false non strings (0, [], (), {})
